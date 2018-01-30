@@ -104,11 +104,6 @@ asb_plugin_process_filename (AsbPlugin *plugin,
 				 as_problem_get_message (problem));
 	}
 
-	/* nuke things that do not belong */
-	icons = as_app_get_icons (AS_APP (app));
-	if (icons->len > 0)
-		g_ptr_array_set_size (icons, 0);
-
 	/* fix up the project license */
 	tmp = as_app_get_project_license (AS_APP (app));
 	if (tmp != NULL && !as_utils_is_spdx_license (tmp)) {
