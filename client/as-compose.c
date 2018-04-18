@@ -477,10 +477,13 @@ main (int argc, char **argv)
 			if (!g_str_has_suffix (desktop_basename->str, ".desktop"))
 				g_string_append (desktop_basename, ".desktop");
 		}
+		g_print ("XXX: desktop_basename=%s\n", desktop_basename->str);
 
 		desktop_path = g_build_filename (prefix, "share", "applications",
 						 desktop_basename->str, NULL);
 		g_debug ("looking for %s", desktop_path);
+
+		g_print ("XXX: desktop_path=%s\n", desktop_path);
 
 		if (g_file_test (desktop_path, G_FILE_TEST_EXISTS)) {
 			app_desktop = load_desktop (prefix,
@@ -505,12 +508,16 @@ main (int argc, char **argv)
 				g_hash_table_remove_all (as_app_get_comments (app_desktop));
 
 			/* does the app already exist with a launchable that matches this ID */
+			g_print ("XXX: as_app_get_id(app_appdata)=%s\n", as_app_get_id (app_appdata));
+			g_print ("XXX: as_app_get_id(app_desktop)=%s\n", as_app_get_id (app_desktop));
 			if (g_strcmp0 (as_app_get_id (app_appdata), as_app_get_id (app_desktop)) != 0) {
 				g_debug ("fixing up ID for desktop merge");
 				as_app_set_id (app_desktop, as_app_get_id (app_appdata));
 			}
 
 			as_store_add_app (store, app_desktop);
+		} else {
+			g_print ("XXX: NO desktop_path\n");
 		}
 	}
 
